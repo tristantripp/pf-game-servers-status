@@ -72,29 +72,40 @@
         <div class="details" id="game1-details">
             <p><strong>Server IP:</strong> 123.45.67.89</p>
             <p><strong>Server Name:</strong> V Rising Official</p>
+            <button class="upvote-btn" onclick="upvote('game1')">Upvote</button>
+            <span class="upvote-count" id="game1-upvotes">0</span>
         </div>
         <li onclick="toggleDetails('game2-details')">Enshrouded: <span class="status" id="game2-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
         <div class="details" id="game2-details">
             <p><strong>Server IP:</strong> 98.76.54.32</p>
             <p><strong>Server Name:</strong> Enshrouded Realm</p>
+            <button class="upvote-btn" onclick="upvote('game2')">Upvote</button>
+            <span class="upvote-count" id="game2-upvotes">0</span>
         </div>
         <li onclick="toggleDetails('game3-details')">Soulmask: <span class="status" id="game3-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
         <div class="details" id="game3-details">
-            <p><strong>Server IP:</strong> 11.22.33.44</p>
-            <p><strong>Server Name:</strong> Soulmask Haven</p>
+            <p><strong>Server IP:</strong> NA</p>
+            <p><strong>Server Name:</strong> [PF] Souls PvPvE - No Wipe - Slow Decay - x2</p>
+            <button class="upvote-btn" onclick="upvote('game3')">Upvote</button>
+            <span class="upvote-count" id="game3-upvotes">0</span>
         </div>
         <li onclick="toggleDetails('game4-details')">Bellwright: <span class="status" id="game4-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
         <div class="details" id="game4-details">
             <p><strong>Server IP:</strong> 22.33.44.55</p>
             <p><strong>Server Name:</strong> Bellwright Battle</p>
+            <button class="upvote-btn" onclick="upvote('game4')">Upvote</button>
+            <span class="upvote-count" id="game4-upvotes">0</span>
         </div>
         <li onclick="toggleDetails('game5-details')">Project Zomboid: <span class="status" id="game5-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
         <div class="details" id="game5-details">
             <p><strong>Server IP:</strong> 33.44.55.66</p>
             <p><strong>Server Name:</strong> Zomboid Apocalypse</p>
+            <button class="upvote-btn" onclick="upvote('game5')">Upvote</button>
+            <span class="upvote-count" id="game5-upvotes">0</span>
         </div>
     </ul>
     <script>
+        //Server Statuses
         function updateStatus(gameId, status) {
             const statusElement = document.getElementById(gameId);
             const icon = statusElement.querySelector('i');
@@ -118,7 +129,7 @@
                 text.textContent = 'Updating...';
             }
         }
-
+        //Dropdown
         function toggleDetails(detailsId) {
             const detailsElement = document.getElementById(detailsId);
             if (detailsElement.style.display === "none" || detailsElement.style.display === "") {
@@ -127,6 +138,15 @@
                 detailsElement.style.display = "none";
             }
         }
+        
+        //Upvote Games
+        function upvote(gameId) {
+            const upvoteCountElement = document.getElementById(`${gameId}-upvotes`);
+            let upvoteCount = parseInt(upvoteCountElement.textContent, 10);
+            upvoteCount++;
+            upvoteCountElement.textContent = upvoteCount;
+        }
+
 
         // Update statuses (Example)
         updateStatus('game1-status', 'offline');
