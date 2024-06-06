@@ -72,6 +72,7 @@
         <div class="details" id="game1-details">
             <p><strong>Server IP:</strong> 38.126.64.74:27015</p>
             <p><strong>Server Name:</strong> PF Rising</p>
+            <p id="game1-deal">Loading deal...</p>
             <button class="upvote-btn" onclick="upvote('game1')">Upvote</button>
             <span class="upvote-count" id="game1-upvotes">0</span>
         </div>
@@ -79,6 +80,7 @@
         <div class="details" id="game2-details">
             <p><strong>Server IP:</strong> 38.126.64.74:27015</p>
             <p><strong>Server Name:</strong> PF Enshrouded</p>
+             <p id="game2-deal">Loading deal...</p>
             <button class="upvote-btn" onclick="upvote('game2')">Upvote</button>
             <span class="upvote-count" id="game2-upvotes">0</span>
         </div>
@@ -86,6 +88,7 @@
         <div class="details" id="game3-details">
             <p><strong>Server IP:</strong> NA</p>
             <p><strong>Server Name:</strong> [PF] Souls PvPvE - No Wipe - Slow Decay - x2</p>
+             <p id="game3-deal">Loading deal...</p>
             <button class="upvote-btn" onclick="upvote('game3')">Upvote</button>
             <span class="upvote-count" id="game3-upvotes">0</span>
         </div>
@@ -93,6 +96,7 @@
         <div class="details" id="game4-details">
             <p><strong>Server IP:</strong> NA</p>
             <p><strong>Server Name:</strong> Hosting Local Co-Op</p>
+             <p id="game4-deal">Loading deal...</p>
             <button class="upvote-btn" onclick="upvote('game4')">Upvote</button>
             <span class="upvote-count" id="game4-upvotes">0</span>
         </div>
@@ -100,12 +104,34 @@
         <div class="details" id="game5-details">
             <p><strong>Server IP:</strong> NA</p>
             <p><strong>Server Name:</strong> NA</p>
+             <p id="game5-deal">Loading deal...</p>
             <button class="upvote-btn" onclick="upvote('game5')">Upvote</button>
             <span class="upvote-count" id="game5-upvotes">0</span>
         </div>
     </ul>
     <script>
-        //Server Statuses
+        const apiKey = '82a597a3135c8324f0b1315bd8cb104f9c24f429';
+
+        async function fetchGameDeal(gameId, gameName) {
+            try {
+                const response = await fetch(`https://api.isthereanydeal.com/v01/game/plain/?key=${apiKey}&title=${encodeURIComponent(gameName)}`);
+                const data = await response.json();
+                const plain = data.data.plain;
+
+                if (plain) {
+                    const dealResponse = await fetch(`https://api.isthereanydeal.com/v01/game/prices/?key=${apiKey}&plains=${plain}`);
+                    const dealData = await dealResponse.json();
+                    const priceData = dealData.data[plain].list[0];
+                    document.getElementById(`${gameId}-deal`).textContent = `Best Deal: ${priceData.price_new} at ${priceData.shop.name}`;
+                } else {
+                    document.getElementById(`${gameId}-deal`).textContent = 'No deals found.';
+                }
+            } catch (error) {
+                console.error('Error fetching game deal:', error);
+                document.getElementById(`${gameId}-deal`).textContent = 'Error loading deal.';
+            }
+        }
+
         function updateStatus(gameId, status) {
             const statusElement = document.getElementById(gameId);
             const icon = statusElement.querySelector('i');
@@ -129,7 +155,7 @@
                 text.textContent = 'Updating...';
             }
         }
-        //Dropdown
+
         function toggleDetails(detailsId) {
             const detailsElement = document.getElementById(detailsId);
             if (detailsElement.style.display === "none" || detailsElement.style.display === "") {
@@ -138,8 +164,7 @@
                 detailsElement.style.display = "none";
             }
         }
-        
-        //Upvote Games
+
         function upvote(gameId) {
             const upvoteCountElement = document.getElementById(`${gameId}-upvotes`);
             let upvoteCount = parseInt(upvoteCountElement.textContent, 10);
@@ -147,6 +172,14 @@
             upvoteCountElement.textContent = upvoteCount;
         }
 
+        // Initial setup to fetch deals for each game
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGameDeal('game1', 'V Rising');
+            fetchGameDeal('game2', 'Enshrouded');
+            fetchGameDeal('game3', 'Soulmask');
+            fetchGameDeal('game4', 'Bellwright');
+            fetchGameDeal('game5', 'Project Zomboid');
+        });
 
         // Update statuses (Example)
         updateStatus('game1-status', 'offline');
