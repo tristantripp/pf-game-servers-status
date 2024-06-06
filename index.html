@@ -4,19 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Servers Status</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        h1 {
+            color: #444;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status {
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+        }
+        .status i {
+            margin-right: 8px;
+        }
+        .online {
+            color: green;
+        }
+        .offline {
+            color: red;
+        }
+        .updating {
+            color: orange;
+        }
+    </style>
 </head>
 <body>
     <h1>Game Servers Status</h1>
     <ul>
-        <li>Game 1: <span id="game1-status">Updating...</span></li>
-        <li>Game 2: <span id="game2-status">Updating...</span></li>
+        <li>Game 1: <span class="status" id="game1-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <li>Game 2: <span class="status" id="game2-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
         <!-- Add more games as needed -->
     </ul>
     <script>
         // JavaScript to update server statuses
-        document.getElementById('game1-status').textContent = 'Online';
-        document.getElementById('game2-status').textContent = 'Offline';
-        // Update these statuses as needed
+        function updateStatus(gameId, status) {
+            const statusElement = document.getElementById(gameId);
+            const icon = statusElement.querySelector('i');
+            const text = statusElement.querySelector('span');
+
+            if (status === 'online') {
+                statusElement.className = 'status online';
+                icon.className = 'fas fa-circle';
+                text.textContent = 'Online';
+            } else if (status === 'offline') {
+                statusElement.className = 'status offline';
+                icon.className = 'fas fa-circle';
+                text.textContent = 'Offline';
+            } else {
+                statusElement.className = 'status updating';
+                icon.className = 'fas fa-circle';
+                text.textContent = 'Updating...';
+            }
+        }
+
+        // Update statuses (Example)
+        updateStatus('game1-status', 'online');
+        updateStatus('game2-status', 'offline');
+        // Add more status updates as needed
     </script>
 </body>
 </html>
