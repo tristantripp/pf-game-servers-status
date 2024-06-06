@@ -119,7 +119,7 @@
                 const gameIdFromResponse = data.game.id;
 
                 if (gameIdFromResponse) {
-                    const dealResponse = await fetch(`https://api.isthereanydeal.com/games/prices/v2?key=${apiKey}`, {
+                    const dealResponse = await fetch(`https://api.isthereanydeal.com/games/prices/v2?key=${apiKey}&nondeals=1`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
