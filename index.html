@@ -29,6 +29,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
         }
         .status {
             font-size: 1.2em;
@@ -47,19 +48,53 @@
         .updating {
             color: orange;
         }
+        .unavailable {
+            color: black;
+        }
+        .details {
+            display: none;
+            margin-top: 10px;
+            text-align: left;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .details p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <h1>Game Servers Status</h1>
     <ul>
-        <li>V Rising: <span class="status" id="game1-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
-        <li>Enshrouded: <span class="status" id="game2-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
-        <li>Soulmask: <span class="status" id="game3-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
-        <li>Bellwright: <span class="status" id="game4-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
-        <li>Project Zomboid: <span class="status" id="game5-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <li onclick="toggleDetails('game1-details')">V Rising: <span class="status" id="game1-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <div class="details" id="game1-details">
+            <p><strong>Server IP:</strong> 123.45.67.89</p>
+            <p><strong>Server Name:</strong> V Rising Official</p>
+        </div>
+        <li onclick="toggleDetails('game2-details')">Enshrouded: <span class="status" id="game2-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <div class="details" id="game2-details">
+            <p><strong>Server IP:</strong> 98.76.54.32</p>
+            <p><strong>Server Name:</strong> Enshrouded Realm</p>
+        </div>
+        <li onclick="toggleDetails('game3-details')">Soulmask: <span class="status" id="game3-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <div class="details" id="game3-details">
+            <p><strong>Server IP:</strong> 11.22.33.44</p>
+            <p><strong>Server Name:</strong> Soulmask Haven</p>
+        </div>
+        <li onclick="toggleDetails('game4-details')">Bellwright: <span class="status" id="game4-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <div class="details" id="game4-details">
+            <p><strong>Server IP:</strong> 22.33.44.55</p>
+            <p><strong>Server Name:</strong> Bellwright Battle</p>
+        </div>
+        <li onclick="toggleDetails('game5-details')">Project Zomboid: <span class="status" id="game5-status"><i class="fas fa-circle"></i><span>Updating...</span></span></li>
+        <div class="details" id="game5-details">
+            <p><strong>Server IP:</strong> 33.44.55.66</p>
+            <p><strong>Server Name:</strong> Zomboid Apocalypse</p>
+        </div>
     </ul>
     <script>
-        // JavaScript to update server statuses
         function updateStatus(gameId, status) {
             const statusElement = document.getElementById(gameId);
             const icon = statusElement.querySelector('i');
@@ -73,6 +108,10 @@
                 statusElement.className = 'status offline';
                 icon.className = 'fas fa-circle';
                 text.textContent = 'Offline';
+            } else if (status === 'unavailable') {
+                statusElement.className = 'status unavailable';
+                icon.className = 'fas fa-circle';
+                text.textContent = 'Not Available';
             } else {
                 statusElement.className = 'status updating';
                 icon.className = 'fas fa-circle';
@@ -80,11 +119,20 @@
             }
         }
 
+        function toggleDetails(detailsId) {
+            const detailsElement = document.getElementById(detailsId);
+            if (detailsElement.style.display === "none" || detailsElement.style.display === "") {
+                detailsElement.style.display = "block";
+            } else {
+                detailsElement.style.display = "none";
+            }
+        }
+
         // Update statuses (Example)
         updateStatus('game1-status', 'offline');
         updateStatus('game2-status', 'online');
-        updateStatus('game3-status', 'offline');
-        updateStatus('game4-status', 'offline');
+        updateStatus('game3-status', 'online');
+        updateStatus('game4-status', 'unavailable');
         updateStatus('game5-status', 'offline');
         // Add more status updates as needed
     </script>
